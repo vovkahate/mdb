@@ -25,18 +25,18 @@ const App = () => {
         setSearchQuery(event.target.value);
     };
 
-    if (error) {
-        return <div>Error: {error}</div>;
-    } else if (isLoaded) {
-        return <div>Loading...</div>;
-    } else {
-        return (
-            <div className="App">
-                <Searchbox
-                    key={searchQuery}
-                    onChange={handleInputChange}
-                    value={searchQuery}
-                />
+    return (
+        <div className="App">
+            <Searchbox
+                key={searchQuery}
+                onChange={handleInputChange}
+                value={searchQuery}
+            />
+            {error ? (
+                <div>Error: {error}</div>
+            ) : isLoaded ? (
+                <div>Loading...</div>
+            ) : (
                 <div className="movie-list">
                     {movies.map((movie) => (
                         <div
@@ -71,9 +71,9 @@ const App = () => {
                         </div>
                     ))}
                 </div>
-            </div>
-        );
-    }
+            )}
+        </div>
+    );
 };
 
 export default App;
