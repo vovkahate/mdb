@@ -1,8 +1,7 @@
 import React from 'react';
 import Input from 'antd/es/input/Input';
-import { memo } from 'react';
 
-const Searchbox = memo(({ onChange, value }) => {
+const Searchbox = ({ onChange, value }) => {
     return (
         <div className="searchbox">
             <Input
@@ -15,6 +14,6 @@ const Searchbox = memo(({ onChange, value }) => {
             ></Input>
         </div>
     );
-});
+};
 
 export default Searchbox;
