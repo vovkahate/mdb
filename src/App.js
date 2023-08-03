@@ -1,26 +1,28 @@
-import React, { useEffect, useMemo } from 'react';
-import { useState, useCallback } from 'react';
+import React, { useEffect, useState } from 'react';
 import './App.css';
-import Searchbox from './components/searchbox';
 
+import Searchbox from './components/searchbox';
 import MovieService from './API/post-service';
 import { useFetching } from './hooks/useFetching';
 import { getDate, getGenres, shortenDescription } from './funcs';
 import Loader from './loader';
 import { Alert } from 'antd';
-
-import { debounce } from 'lodash';
+import Pagi from './components/pagination';
 
 const App = () => {
     const [movies, setMovies] = useState([]);
-    const [page, setPage] = useState(1);
-    const [searchQuery, setSearchQuery] = useState('');
     const [isOnline, setIsOnline] = useState(navigator.onLine);
 
+    const [totalPages, setTotalPages] = useState(0);
+    const [page, setPage] = useState(1);
+
+    const [searchQuery, setSearchQuery] = useState('');
+
     const [fetching, isLoading, error] = useFetching(async () => {
-        const response = await MovieService.fetchData(searchQuery);
+        const response = await MovieService.fetchData(searchQuery, page);
         setMovies(response.results);
-        console.log(response);
+        setTotalPages(response.total_results);
+        console.log('response: ', response);
     });
 
     useEffect(() => {
@@ -36,10 +38,16 @@ const App = () => {
             window.removeEventListener('online', handleStatusChange);
             window.removeEventListener('offline', handleStatusChange);
         };
-    }, [searchQuery, isOnline]);
+    }, [searchQuery, isOnline, page]);
 
-    const handleInputChange = (value) => {
-        setSearchQuery(value);
+    const handleInputChange = (text) => {
+        //console.log('input query: ', text);
+        setSearchQuery(text);
+    };
+
+    const handlePage = (page) => {
+        console.log('page: ', page);
+        setPage(page);
     };
 
     return (
@@ -124,6 +132,18 @@ const App = () => {
                     showIcon
                 />
             )}
+
+            {isOnline &&
+                !error &&
+                !isLoading &&
+                movies &&
+                movies.length > 0 && (
+                    <Pagi
+                        total={totalPages}
+                        handlePage={handlePage}
+                        current={page}
+                    />
+                )}
         </div>
     );
 };
