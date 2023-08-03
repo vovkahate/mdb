@@ -9,7 +9,7 @@ const Searchbox = ({ onChange, value }) => {
                 type="text"
                 className="searchbox-input"
                 placeholder="Type to search"
-                onChange={(e) => onChange(e)}
+                onChange={(e) => onChange(e.target.value)}
                 value={value}
             ></Input>
         </div>

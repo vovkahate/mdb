@@ -1,19 +1,20 @@
 import { useState } from 'react';
+import { debounce } from 'lodash';
 
 export const useFetching = (callback) => {
-    const [isLoaded, setIsLoaded] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState('');
 
     const fetching = async () => {
         try {
-            setIsLoaded(true);
+            setIsLoading(true);
             await callback();
         } catch (e) {
             setError(e.message);
         } finally {
-            setIsLoaded(false);
+            setIsLoading(false);
         }
     };
 
-    return [fetching, isLoaded, error];
+    return [fetching, isLoading, error];
 };

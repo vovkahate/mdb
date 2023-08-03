@@ -8,7 +8,7 @@ function getDate(date) {
     }
 }
 
-function getGenres(id) {
+function getGenres(id = 0) {
     const genres = {
         12: 'Adventure',
         14: 'Fantasy',
@@ -22,15 +22,25 @@ function getGenres(id) {
         53: 'Thriller',
         80: 'Crime',
         99: 'Documentary',
-        878: 'Science Fiction',
+        878: 'Science',
         9648: 'Mystery',
         10402: 'Music',
         10749: 'Romance',
         10751: 'Family',
         10752: 'War',
-        10770: 'TV Movie',
+        10770: 'TV',
     };
-    return genres[id];
+    if (id in genres) {
+        return genres[id];
+    } else return 'unknown';
 }
 
-export { getDate, getGenres };
+const shortenDescription = (description) => {
+    if (description.length > 200) {
+        let endSpace = description.substring(0, 160).lastIndexOf(' ');
+        return description.substring(0, endSpace) + '...';
+    } else {
+        return description;
+    }
+};
+export { getDate, getGenres, shortenDescription };
