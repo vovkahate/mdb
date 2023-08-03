@@ -1,8 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Pagination } from 'antd';
 const Pagi = ({ total, handlePage, current }) => {
-    console.log('total: ', total);
-
     return (
         <Pagination
             defaultCurrent={current}

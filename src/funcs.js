@@ -43,4 +43,5 @@ const shortenDescription = (description) => {
         return description;
     }
 };
+
 export { getDate, getGenres, shortenDescription };
