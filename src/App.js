@@ -9,6 +9,7 @@ import { Alert } from 'antd';
 import Pagi from './components/pagination';
 import MovieList from './components/movielist';
 import NoInternet from './components/nointernet';
+import Error from './components/error';
 
 const App = () => {
     const [movies, setMovies] = useState([]);
@@ -47,22 +48,17 @@ const App = () => {
                 onChange={(text) => setSearchQuery(text)}
                 value={searchQuery}
             />
-            {isOnline ? (
-                error ? (
-                    <Alert
-                        style={{ textAlign: 'left', margin: '35px' }}
-                        message="Error"
-                        description={error}
-                        type="error"
-                        showIcon
-                    />
-                ) : isLoading ? (
-                    <Loader />
-                ) : (
-                    <MovieList movies={movies} />
-                )
-            ) : (
+            {!isOnline ? (
                 <NoInternet />
+            ) : error ? (
+                <Error error={error} />
+            ) : isLoading ? (
+                <Loader />
+            ) : (
+                <MovieList
+                    movies={movies}
+                    query={searchQuery}
+                />
             )}
 
             {shouldRenderPagination() && (

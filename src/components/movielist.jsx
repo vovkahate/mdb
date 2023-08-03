@@ -1,11 +1,23 @@
 import React from 'react';
 import { getDate, getGenres, shortenDescription } from '../funcs';
+import { Alert } from 'antd';
 
-const MovieList = ({ movies }) => {
+const MovieList = ({ movies, query }) => {
     return (
         <div className="movie-list">
-            {movies.length === 0 ? (
-                <p>Ничего не найдено</p>
+            {!query && movies.length === 0 ? (
+                <Alert
+                    message="Для поиска фильма начните печатать название"
+                    type="success"
+                    style={{ borderRadius: '0', marginBottom: '600px' }}
+                />
+            ) : query && movies.length === 0 ? (
+                <Alert
+                    message="По вашему запросу ничего не найдено"
+                    type="info"
+                    showIcon
+                    style={{ borderRadius: '0', marginBottom: '600px' }}
+                />
             ) : (
                 movies.map((movie) => (
                     <div
@@ -14,6 +26,8 @@ const MovieList = ({ movies }) => {
                     >
                         {movie.poster_path ? (
                             <img
+                                width={166}
+                                height={250}
                                 alt=""
                                 src={`https://image.tmdb.org/t/p/original/${movie.poster_path}`}
                             />

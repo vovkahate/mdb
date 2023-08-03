@@ -39,9 +39,9 @@ const shortenDescription = (description) => {
     if (description.length > 200) {
         let endSpace = description.substring(0, 160).lastIndexOf(' ');
         return description.substring(0, endSpace) + '...';
-    } else {
-        return description;
-    }
+    } else if (description === '') {
+        return 'No description';
+    } else return description;
 };
 
 export { getDate, getGenres, shortenDescription };
