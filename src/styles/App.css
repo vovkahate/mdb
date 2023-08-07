@@ -4,6 +4,13 @@
 }
 body {
     background: #f7f7f7;
+    @font-face {
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 100 900;
+        src: url(https://fonts.gstatic.com/s/inter/v12/UcC73FwrK3iLTeHuS_fvQtMwCp50KnMa1ZL7.woff2)
+            format('woff2');
+    }
 }
 
 #root {
@@ -19,9 +26,9 @@ body {
 }
 
 .searchbox {
-    margin: 20px;
+    margin: 0;
     box-sizing: border-box;
-    margin: 32px 36px;
+    margin: 0px 36px 32px;
 }
 .searchbox-input {
     width: 100%;
@@ -46,6 +53,7 @@ body {
 
 .movie-info {
     display: flex;
+    width: 100%;
     flex-direction: column;
     text-align: left;
     margin: 0;
@@ -128,4 +136,55 @@ body {
     width: 1010px;
     height: 100vh;
     background: #fff;
+}
+
+.title-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.raiting-rate {
+    font-size: 12px;
+    font-family: Inter;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 22px;
+    letter-spacing: 0px;
+}
+.under3 {
+    border: 2px solid #e90000;
+}
+.under5 {
+    border: 2px solid #e97e00;
+}
+.under7 {
+    border: 2px solid #e9d100;
+}
+.under10 {
+    border: 2px solid #66e900;
+}
+.raiting {
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+    flex-shrink: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-self: flex-start;
+}
+.ant-tabs-nav {
+    margin-bottom: 0;
+}
+
+.ant-tabs-nav {
+    align-self: center;
+}
+
+.rated-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }

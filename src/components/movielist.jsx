@@ -1,8 +1,8 @@
 import React from 'react';
-import { getDate, getGenres, shortenDescription } from '../funcs';
 import { Alert } from 'antd';
+import MovieCard from './moviecard';
 
-const MovieList = ({ movies, query }) => {
+const MovieList = ({ movies, query, rateMovie, myRatedMovies }) => {
     return (
         <div className="movie-list">
             {!query && movies.length === 0 ? (
@@ -20,51 +20,13 @@ const MovieList = ({ movies, query }) => {
                 />
             ) : (
                 movies.map((movie) => (
-                    <div
+                    <MovieCard
+                        movie={movie}
+                        myRatedMovies={myRatedMovies}
+                        interact={true}
                         key={movie.id}
-                        className="movie-card"
-                    >
-                        {movie.poster_path ? (
-                            <img
-                                width={166}
-                                height={250}
-                                alt=""
-                                src={`https://image.tmdb.org/t/p/original/${movie.poster_path}`}
-                            />
-                        ) : (
-                            <div className="movie-broken">
-                                <p>обложка фильма недоступна</p>
-                            </div>
-                        )}
-                        <div className="movie-info">
-                            <h5 className="movie-title">{movie.title}</h5>
-                            <p className="movie-date">
-                                {getDate(movie.release_date)}
-                            </p>
-                            <div className="movie-genre-wrapper">
-                                {movie.genre_ids.length > 0 ? (
-                                    movie.genre_ids.map((genre) => (
-                                        <span
-                                            key={genre}
-                                            className="movie-genre"
-                                        >
-                                            {getGenres(genre)}
-                                        </span>
-                                    ))
-                                ) : (
-                                    <span
-                                        key={new Date()}
-                                        className="movie-genre"
-                                    >
-                                        No genre
-                                    </span>
-                                )}
-                            </div>
-                            <p className="movie-overview">
-                                {shortenDescription(movie.overview)}
-                            </p>
-                        </div>
-                    </div>
+                        handleRatingChange={rateMovie}
+                    />
                 ))
             )}
         </div>

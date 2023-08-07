@@ -1,4 +1,5 @@
 import { format } from 'date-fns';
+import axios from 'axios';
 
 function getDate(date) {
     try {
@@ -36,12 +37,34 @@ function getGenres(id = 0) {
 }
 
 const shortenDescription = (description) => {
-    if (description.length > 200) {
-        let endSpace = description.substring(0, 160).lastIndexOf(' ');
+    if (description.length > 100) {
+        let endSpace = description.substring(0, 100).lastIndexOf(' ');
         return description.substring(0, endSpace) + '...';
     } else if (description === '') {
         return 'No description';
     } else return description;
 };
 
-export { getDate, getGenres, shortenDescription };
+async function createSession() {
+    const api = '7686f6535a89f5b4a53e9d688a5a2d41';
+    try {
+        const response = await axios.get(
+            `https://api.themoviedb.org/3/authentication/guest_session/new?api_key=${api}`
+        );
+        return [response.data.success, response.data.guest_session_id];
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+const color = (rating) => {
+    if (rating < 3) {
+        return 'raiting under3';
+    } else if (rating < 5) {
+        return 'raiting under5';
+    } else if (rating < 7) {
+        return 'raiting under7';
+    } else return 'raiting under10';
+};
+
+export { getDate, getGenres, shortenDescription, createSession, color };
