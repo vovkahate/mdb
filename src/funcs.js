@@ -2,6 +2,7 @@ import { format } from 'date-fns';
 import axios from 'axios';
 
 function getDate(date) {
+    // для обработки даты в фнс)
     try {
         return format(new Date(date), 'MMMM dd, yyyy');
     } catch {
@@ -10,6 +11,7 @@ function getDate(date) {
 }
 
 function getGenres(id = 0) {
+    // заменим потом на контекст по заданию
     const genres = {
         12: 'Adventure',
         14: 'Fantasy',
@@ -37,6 +39,7 @@ function getGenres(id = 0) {
 }
 
 const shortenDescription = (description) => {
+    // сокращаем описание
     if (description.length > 100) {
         let endSpace = description.substring(0, 100).lastIndexOf(' ');
         return description.substring(0, endSpace) + '...';
@@ -46,6 +49,7 @@ const shortenDescription = (description) => {
 };
 
 async function createSession() {
+    // создаем сессию
     const api = '7686f6535a89f5b4a53e9d688a5a2d41';
     try {
         const response = await axios.get(
@@ -58,6 +62,7 @@ async function createSession() {
 }
 
 const color = (rating) => {
+    // находим цвет колечка
     if (rating < 3) {
         return 'raiting under3';
     } else if (rating < 5) {

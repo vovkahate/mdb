@@ -68,8 +68,7 @@ const App = () => {
             if (!session.sessionId) {
                 try {
                     const [success, sessionId] = await createSession();
-                    console.log('Guest session created:', success);
-                    console.log('Guest session ID:', sessionId);
+                    console.log('Guest session created:', sessionId);
 
                     const updatedSession = {
                         sessionId: sessionId,
@@ -117,7 +116,7 @@ const App = () => {
 
             if (response.status === 201) {
                 const result = response.data;
-                console.log('оценка произведена', result);
+                console.log('оценка произведена', response);
 
                 setSession((prev) => {
                     const updatedSession = {
@@ -125,11 +124,12 @@ const App = () => {
                         ratedCount: prev.ratedCount + 1,
                         ratedMovies: { ...prev.ratedMovies, [movieId]: rating },
                     };
+
                     console.log(
-                        'записал оценок в сессию',
-                        updatedSession.ratedCount
+                        'оценок в лс сессии: ',
+                        Object.keys(updatedSession.ratedMovies).length,
+                        updatedSession.ratedMovies
                     );
-                    console.log('оценки в сессии:', updatedSession.ratedMovies);
                     return updatedSession;
                 });
 
@@ -144,24 +144,21 @@ const App = () => {
         }
     };
 
-    const fetchRatedFilms = async (sessionId, page) => {
-        try {
-            const api = '7686f6535a89f5b4a53e9d688a5a2d41';
-            const response = await axios.get(
-                `https://api.themoviedb.org/3/guest_session/${session.sessionId}/rated/movies?api_key=${api}&page=${page}`
-            );
-            console.log('сработала фетч Рэйтед филмс:', response);
-            console.log(
-                'и там же total rated pages',
-                response.data.total_pages
-            );
-            setTotalRatedPages(response.data.total_pages);
+    // const fetchRatedFilms = async (sessionId, page) => {
+    //     try {
+    //         const api = '7686f6535a89f5b4a53e9d688a5a2d41';
+    //         const response = await axios.get(
+    //             `https://api.themoviedb.org/3/guest_session/${session.sessionId}/rated/movies?api_key=${api}&page=${page}`
+    //         );
+    //         console.log('пошел запрос оцененных фильмов :', response);
 
-            return response.data;
-        } catch (error) {
-            console.log(error);
-        }
-    };
+    //         setTotalRatedPages(response.data.total_pages);
+
+    //         return response.data;
+    //     } catch (error) {
+    //         console.log(error);
+    //     }
+    // };
 
     const items = [
         {
@@ -208,10 +205,7 @@ const App = () => {
             children: (
                 <div>
                     <RatedFilms
-                        fetch={fetchRatedFilms}
                         sessionId={session.sessionId}
-                        totalFilmsRated={session.ratedCount}
-                        totalRatedPages={totalRatedPages}
                         myRatedMovies={session.ratedMovies}
                     />
                 </div>

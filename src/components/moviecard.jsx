@@ -8,7 +8,7 @@ const MovieCard = ({
     movie,
     myRatedMovies,
     interact = true,
-    handleRatingChange = () => {},
+    handleRatingChange,
 }) => {
     return (
         <div
