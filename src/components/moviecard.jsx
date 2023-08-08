@@ -71,7 +71,11 @@ const MovieCard = ({
                         onChange={(value) =>
                             handleRatingChange(movie.id, value)
                         }
-                        value={myRatedMovies[movie.id] || 0}
+                        value={
+                            !interact
+                                ? movie.rating
+                                : myRatedMovies[movie.id] || 0
+                        }
                         allowHalf
                         count={10}
                         size="small"

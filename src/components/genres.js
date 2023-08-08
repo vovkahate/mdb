@@ -22,9 +22,7 @@ const GenresProvider = ({ children }) => {
         fetchGenres();
     }, []);
 
-    useEffect(() => {
-        console.log('genres: ', genres);
-    }, [genres]);
+    useEffect(() => {}, [genres]);
 
     return (
         <GenresContext.Provider value={{ genres }}>
