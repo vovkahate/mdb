@@ -77,6 +77,7 @@ const RatedFilms = ({ sessionId, myRatedMovies }) => {
                         current={currentPage}
                         total={pages}
                         onChange={(page) => setCurrentPage(page)}
+                        style={{ marginTop: '36px', marginBottom: '17px' }}
                     />
                 </>
             )}

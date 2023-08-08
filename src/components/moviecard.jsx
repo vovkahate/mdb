@@ -24,8 +24,7 @@ const MovieCard = ({
         >
             {movie.poster_path ? (
                 <img
-                    width={166}
-                    height={250}
+                    className="movie-poster"
                     alt=""
                     src={`https://image.tmdb.org/t/p/original/${movie.poster_path}`}
                 />
@@ -63,11 +62,38 @@ const MovieCard = ({
                         </span>
                     )}
                 </div>
-                <p className="movie-overview">
+                <div className="moviecard-xl">
+                    <p className="movie-overview">
+                        {shortenDescription(movie.overview)}
+                    </p>
+                    {
+                        <div className="stars">
+                            <Rate
+                                className="rate"
+                                onChange={(value) =>
+                                    handleRatingChange(movie.id, value)
+                                }
+                                value={
+                                    !interact
+                                        ? movie.rating
+                                        : myRatedMovies[movie.id] || 0
+                                }
+                                allowHalf
+                                count={10}
+                                size="small"
+                                disabled={interact ? false : true}
+                            />
+                        </div>
+                    }
+                </div>
+            </div>
+            <div className="moviecard-xs">
+                <p className="xs-overview">
                     {shortenDescription(movie.overview)}
                 </p>
                 {
                     <Rate
+                        className="rate"
                         onChange={(value) =>
                             handleRatingChange(movie.id, value)
                         }
@@ -79,7 +105,6 @@ const MovieCard = ({
                         allowHalf
                         count={10}
                         size="small"
-                        style={{ fontSize: 17 }}
                         disabled={interact ? false : true}
                     />
                 }

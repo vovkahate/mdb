@@ -1,5 +1,5 @@
 import React, { createContext, useEffect, useState } from 'react';
-import './styles/App.css';
+import './styles/styles.scss';
 
 import Searchbox from './components/searchbox';
 import MovieService from './API/post-service';
