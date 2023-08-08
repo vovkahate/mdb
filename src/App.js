@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { createContext, useEffect, useState } from 'react';
 import './styles/App.css';
 
 import Searchbox from './components/searchbox';
@@ -10,9 +10,9 @@ import MovieList from './components/movielist';
 import NoInternet from './components/nointernet';
 import Error from './components/error';
 import { createSession } from './funcs';
-import axios from 'axios';
 import { Tabs } from 'antd';
 import RatedFilms from './components/ratedfilms';
+import GenresProvider from './components/genres';
 
 const App = () => {
     const [movies, setMovies] = useState([]);
@@ -96,26 +96,13 @@ const App = () => {
 
     const rateMovie = async (movieId, rating) => {
         try {
-            const response = await axios.post(
-                `https://api.themoviedb.org/3/movie/${movieId}/rating`,
-                {
-                    value: rating,
-                },
-                {
-                    params: {
-                        api_key: '7686f6535a89f5b4a53e9d688a5a2d41',
-                        guest_session_id: session.sessionId,
-                    },
-                },
-                {
-                    headers: {
-                        'Content-Type': 'application/json;charset=utf-8',
-                    },
-                }
+            const response = await MovieService.rateMovie(
+                movieId,
+                session.sessionId,
+                rating
             );
 
-            if (response.status === 201) {
-                const result = response.data;
+            if (response.success) {
                 console.log('оценка произведена', response);
 
                 setSession((prev) => {
@@ -132,8 +119,6 @@ const App = () => {
                     );
                     return updatedSession;
                 });
-
-                return result;
             } else {
                 throw new Error(
                     `Request failed with status ${response.status}`
@@ -143,22 +128,6 @@ const App = () => {
             throw new Error(`Error rating movie: ${error.message}`);
         }
     };
-
-    // const fetchRatedFilms = async (sessionId, page) => {
-    //     try {
-    //         const api = '7686f6535a89f5b4a53e9d688a5a2d41';
-    //         const response = await axios.get(
-    //             `https://api.themoviedb.org/3/guest_session/${session.sessionId}/rated/movies?api_key=${api}&page=${page}`
-    //         );
-    //         console.log('пошел запрос оцененных фильмов :', response);
-
-    //         setTotalRatedPages(response.data.total_pages);
-
-    //         return response.data;
-    //     } catch (error) {
-    //         console.log(error);
-    //     }
-    // };
 
     const items = [
         {
@@ -201,7 +170,7 @@ const App = () => {
         {
             key: '2',
             label: `Rated`,
-
+            forceRender: true,
             children: (
                 <div>
                     <RatedFilms
@@ -219,14 +188,17 @@ const App = () => {
     };
 
     return (
-        <div className="App">
-            <Tabs
-                activeKey={activeTab}
-                onTabClick={handleTabClick}
-                defaultActiveKey="1"
-                items={items}
-            />
-        </div>
+        <GenresProvider>
+            <div className="App">
+                <Tabs
+                    activeKey={activeTab}
+                    onTabClick={handleTabClick}
+                    defaultActiveKey="1"
+                    items={items}
+                    destroyInactiveTabPane
+                />
+            </div>
+        </GenresProvider>
     );
 };
 

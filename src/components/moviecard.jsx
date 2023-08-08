@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { getDate } from '../funcs';
-import { getGenres, shortenDescription } from '../funcs';
+import { shortenDescription } from '../funcs';
 import { Rate } from 'antd';
 import { color } from '../funcs';
+import { GenresContext } from './genres';
 
 const MovieCard = ({
     movie,
@@ -10,6 +11,12 @@ const MovieCard = ({
     interact = true,
     handleRatingChange,
 }) => {
+    const { genres } = useContext(GenresContext);
+    const getGenres = (genreId) => {
+        const genre = genres.find((genre) => genre.id === genreId);
+        return genre ? genre.name : 'no genre';
+    };
+
     return (
         <div
             key={movie.id}
@@ -38,7 +45,7 @@ const MovieCard = ({
                 </div>
                 <p className="movie-date">{getDate(movie.release_date)}</p>
                 <div className="movie-genre-wrapper">
-                    {movie.genre_ids.length > 0 ? (
+                    {genres && movie && movie.genre_ids.length > 0 ? (
                         movie.genre_ids.map((genre) => (
                             <span
                                 key={genre}
