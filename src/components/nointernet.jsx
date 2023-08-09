@@ -4,7 +4,8 @@ import Alert from 'antd/es/alert/Alert';
 const NoInternet = () => {
     return (
         <Alert
-            style={{ textAlign: 'left', margin: '35px' }}
+            className="alert-start"
+            style={{ textAlign: 'left' }}
             message="Error"
             description="No internet connection"
             type="error"

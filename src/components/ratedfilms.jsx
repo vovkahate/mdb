@@ -3,6 +3,7 @@ import { Pagination } from 'antd';
 import MovieCard from './moviecard';
 import Loader from './loader';
 import MovieService from '../API/post-service';
+import { Alert } from 'antd';
 
 const RatedFilms = ({ sessionId, myRatedMovies }) => {
     const [list, setList] = useState([]);
@@ -66,7 +67,7 @@ const RatedFilms = ({ sessionId, myRatedMovies }) => {
         <>
             {isLoading ? (
                 <Loader />
-            ) : (
+            ) : items && items.length > 0 ? (
                 <>
                     <div className="rated-list">{items}</div>
 
@@ -80,6 +81,13 @@ const RatedFilms = ({ sessionId, myRatedMovies }) => {
                         style={{ marginTop: '36px', marginBottom: '17px' }}
                     />
                 </>
+            ) : (
+                <Alert
+                    className="alert-start"
+                    message="В списке оцененных пока нет фильмов"
+                    type="info"
+                    showIcon
+                />
             )}
         </>
     );

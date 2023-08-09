@@ -96,33 +96,43 @@ const App = () => {
 
     const rateMovie = async (movieId, rating) => {
         try {
-            const response = await MovieService.rateMovie(
-                movieId,
-                session.sessionId,
-                rating
-            );
-
-            if (response.success) {
-                console.log('оценка произведена', response);
-
-                setSession((prev) => {
-                    const updatedSession = {
-                        ...prev,
-                        ratedCount: prev.ratedCount + 1,
-                        ratedMovies: { ...prev.ratedMovies, [movieId]: rating },
-                    };
-
-                    console.log(
-                        'оценок в лс сессии: ',
-                        Object.keys(updatedSession.ratedMovies).length,
-                        updatedSession.ratedMovies
-                    );
-                    return updatedSession;
-                });
-            } else {
-                throw new Error(
-                    `Request failed with status ${response.status}`
+            if (rating === 0) {
+                console.log(
+                    'Та же оценка уже существует. Функция оценки не будет вызвана.'
                 );
+                return;
+            } else {
+                const response = await MovieService.rateMovie(
+                    movieId,
+                    session.sessionId,
+                    rating
+                );
+
+                if (response.success) {
+                    console.log('оценка произведена', response);
+
+                    setSession((prev) => {
+                        const updatedSession = {
+                            ...prev,
+                            ratedCount: prev.ratedCount + 1,
+                            ratedMovies: {
+                                ...prev.ratedMovies,
+                                [movieId]: rating,
+                            },
+                        };
+
+                        console.log(
+                            'оценок в лс сессии: ',
+                            Object.keys(updatedSession.ratedMovies).length,
+                            updatedSession.ratedMovies
+                        );
+                        return updatedSession;
+                    });
+                } else {
+                    throw new Error(
+                        `Request failed with status ${response.status}`
+                    );
+                }
             }
         } catch (error) {
             throw new Error(`Error rating movie: ${error.message}`);

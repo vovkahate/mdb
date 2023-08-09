@@ -4,7 +4,7 @@ import Alert from 'antd/es/alert/Alert';
 const Error = ({ error }) => {
     return (
         <Alert
-            style={{ textAlign: 'left', margin: '35px' }}
+            className="alert-start"
             message="Error"
             description={error}
             type="error"

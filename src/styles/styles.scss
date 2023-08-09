@@ -200,9 +200,12 @@ body {
 
 .loader {
     margin-top: 65px;
-    width: 1010px;
     height: 100vh;
+    width: 420px;
     background: #fff;
+    @media (min-width: 1010px) {
+        width: 1010px;
+    }
 }
 
 .title-container {
@@ -297,4 +300,17 @@ body {
 
 .stars {
     margin-top: auto;
+}
+
+.alert-start {
+    border-radius: 0;
+
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 200px;
+
+    @media (min-width: 1010px) {
+        margin-bottom: 600px;
+    }
 }

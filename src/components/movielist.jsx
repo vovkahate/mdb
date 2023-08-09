@@ -3,32 +3,30 @@ import { Alert } from 'antd';
 import MovieCard from './moviecard';
 
 const MovieList = ({ movies, query, rateMovie, myRatedMovies }) => {
-    return (
+    return !query && movies.length === 0 ? (
+        <Alert
+            className="alert-start"
+            message="Для поиска фильма начните печатать название"
+            type="success"
+        />
+    ) : query && movies.length === 0 ? (
+        <Alert
+            className="alert-start"
+            message="По вашему запросу ничего не найдено"
+            type="info"
+            showIcon
+        />
+    ) : (
         <div className="movie-list">
-            {!query && movies.length === 0 ? (
-                <Alert
-                    message="Для поиска фильма начните печатать название"
-                    type="success"
-                    style={{ borderRadius: '0', marginBottom: '600px' }}
+            {movies.map((movie) => (
+                <MovieCard
+                    movie={movie}
+                    myRatedMovies={myRatedMovies}
+                    interact={true}
+                    key={movie.id}
+                    handleRatingChange={rateMovie}
                 />
-            ) : query && movies.length === 0 ? (
-                <Alert
-                    message="По вашему запросу ничего не найдено"
-                    type="info"
-                    showIcon
-                    style={{ borderRadius: '0', marginBottom: '600px' }}
-                />
-            ) : (
-                movies.map((movie) => (
-                    <MovieCard
-                        movie={movie}
-                        myRatedMovies={myRatedMovies}
-                        interact={true}
-                        key={movie.id}
-                        handleRatingChange={rateMovie}
-                    />
-                ))
-            )}
+            ))}
         </div>
     );
 };
