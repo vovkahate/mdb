@@ -41,11 +41,11 @@ const RatedFilms = ({ sessionId, myRatedMovies }) => {
                 const newData = await fetchRatedFilms(sessionId, currentPage);
                 setList(newData.results);
                 setPages(newData.total_results);
-                console.log('сработал фетч в 2 табе', newData);
-                console.log('массив фильмов: ', newData.results);
+                // console.log('сработал фетч в 2 табе', newData);
+                // console.log('массив фильмов: ', newData.results);
                 setIsLoading(false);
             } catch (error) {
-                console.log(error);
+                console.log('пока что в списке оцененных фильмов нет ', error);
             }
         };
 

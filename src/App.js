@@ -42,7 +42,7 @@ const App = () => {
         const response = await MovieService.fetchData(searchQuery, page);
         setMovies(response.results);
         setTotalPages(response.total_results);
-        console.log('response: ', response);
+        //console.log('response: ', response);
     });
 
     useEffect(() => {
@@ -98,7 +98,7 @@ const App = () => {
         try {
             if (rating === 0) {
                 console.log(
-                    'Та же оценка уже существует. Функция оценки не будет вызвана.'
+                    'Такая оценка уже существует. Функция оценки не будет вызвана.'
                 );
                 return;
             } else {

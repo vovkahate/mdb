@@ -30,7 +30,7 @@ export default class MovieService {
             { cache: 'no-cache' }
         );
         const result = await response.json();
-        console.log('пошел запрос оцененных фильмов :', result);
+        // console.log('пошел запрос оцененных фильмов :', result);
         return result;
     }
 }
