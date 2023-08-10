@@ -146,9 +146,7 @@ const App = () => {
 
             children: (
                 <>
-                    {!isOnline ? (
-                        <NoInternet />
-                    ) : error || sessionError ? (
+                    {error || sessionError ? (
                         <Error error={error || sessionError} /> // пока что так сделал хз
                     ) : isLoading ? (
                         <Loader />
@@ -200,13 +198,17 @@ const App = () => {
     return (
         <GenresProvider>
             <div className="App">
-                <Tabs
-                    activeKey={activeTab}
-                    onTabClick={handleTabClick}
-                    defaultActiveKey="1"
-                    items={items}
-                    destroyInactiveTabPane
-                />
+                {!isOnline ? (
+                    <NoInternet />
+                ) : (
+                    <Tabs
+                        activeKey={activeTab}
+                        onTabClick={handleTabClick}
+                        defaultActiveKey="1"
+                        items={items}
+                        destroyInactiveTabPane
+                    />
+                )}
             </div>
         </GenresProvider>
     );
