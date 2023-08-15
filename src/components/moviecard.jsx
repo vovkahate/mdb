@@ -35,7 +35,9 @@ const MovieCard = ({
             )}
             <div className="movie-info">
                 <div className="title-container">
-                    <h5 className="movie-title">{movie.title}</h5>
+                    <h5 className="movie-title">
+                        {shortenDescription(movie.title, 35)}
+                    </h5>
                     <div className={color(movie.vote_average.toFixed(1))}>
                         <h5 className="raiting-rate">
                             {movie.vote_average.toFixed(1)}

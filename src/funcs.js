@@ -38,10 +38,10 @@ function getGenres(id = 0) {
     } else return 'unknown';
 }
 
-const shortenDescription = (description) => {
+const shortenDescription = (description, symbols = 100) => {
     // сокращаем описание
-    if (description.length > 100) {
-        let endSpace = description.substring(0, 100).lastIndexOf(' ');
+    if (description.length > symbols) {
+        let endSpace = description.substring(0, symbols).lastIndexOf(' ');
         return description.substring(0, endSpace) + '...';
     } else if (description === '') {
         return 'No description';
