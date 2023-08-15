@@ -22,8 +22,6 @@ const GenresProvider = ({ children }) => {
         fetchGenres();
     }, []);
 
-    useEffect(() => {}, [genres]);
-
     return (
         <GenresContext.Provider value={{ genres }}>
             {children}

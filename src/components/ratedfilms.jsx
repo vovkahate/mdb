@@ -45,7 +45,7 @@ const RatedFilms = ({ sessionId, myRatedMovies }) => {
                 // console.log('массив фильмов: ', newData.results);
                 setIsLoading(false);
             } catch (error) {
-                console.log('пока что в списке оцененных фильмов нет ', error);
+                console.log('ошибка запроса оцененных фильмов', error);
             }
         };
 
