@@ -4,13 +4,9 @@ import './styles/styles.scss';
 import Searchbox from './components/searchbox';
 import MovieService from './API/post-service';
 import { useFetching } from './hooks/useFetching';
-import Loader from './components/loader';
-import Pagi from './components/pagination';
 import MovieList from './components/movielist';
-import NoInternet from './components/nointernet';
-import Error from './components/error';
 import { createSession } from './funcs';
-import { Tabs } from 'antd';
+import { Tabs, Alert } from 'antd';
 import RatedFilms from './components/ratedfilms';
 import GenresProvider from './components/genres';
 
@@ -22,7 +18,7 @@ const App = () => {
     const [searchQuery, setSearchQuery] = useState('');
     const [sessionError, setSessionError] = useState(false);
 
-    const [totalRatedPages, setTotalRatedPages] = useState(1);
+    const [activeTab, setActiveTab] = useState('1');
 
     const [session, setSession] = useState(() => {
         const storedSession = localStorage.getItem('session');
@@ -42,7 +38,6 @@ const App = () => {
         const response = await MovieService.fetchData(searchQuery, page);
         setMovies(response.results);
         setTotalPages(response.total_results);
-        //console.log('response: ', response);
     });
 
     useEffect(() => {
@@ -138,6 +133,9 @@ const App = () => {
             throw new Error(`Error rating movie: ${error.message}`);
         }
     };
+    const movieListPagination = (pageNumber) => {
+        setPage(pageNumber);
+    };
 
     const items = [
         {
@@ -146,32 +144,23 @@ const App = () => {
 
             children: (
                 <>
-                    {error || sessionError ? (
-                        <Error error={error || sessionError} /> // пока что так сделал хз
-                    ) : isLoading ? (
-                        <Loader />
-                    ) : (
-                        <>
-                            <Searchbox
-                                onChange={(text) => setSearchQuery(text)}
-                                value={searchQuery}
-                            />
-                            <MovieList
-                                movies={movies}
-                                query={searchQuery}
-                                rateMovie={rateMovie}
-                                myRatedMovies={session.ratedMovies}
-                            />
-                        </>
-                    )}
-
-                    {shouldRenderPagination() && (
-                        <Pagi
-                            total={totalPages}
-                            handlePage={(page) => setPage(page)}
-                            current={page}
-                        />
-                    )}
+                    <Searchbox
+                        onChange={(text) => setSearchQuery(text)}
+                        value={searchQuery}
+                    />
+                    <MovieList
+                        error={error}
+                        sessionError={sessionError}
+                        loader={isLoading}
+                        movies={movies}
+                        query={searchQuery}
+                        rateMovie={rateMovie}
+                        myRatedMovies={session.ratedMovies}
+                        pagination={shouldRenderPagination()}
+                        page={page}
+                        totalPages={totalPages}
+                        movieListPagination={movieListPagination}
+                    />
                 </>
             ),
         },
@@ -189,7 +178,6 @@ const App = () => {
             ),
         },
     ];
-    const [activeTab, setActiveTab] = useState('1');
 
     const handleTabClick = (key) => {
         setActiveTab(key);
@@ -199,7 +187,14 @@ const App = () => {
         <GenresProvider>
             <div className="App">
                 {!isOnline ? (
-                    <NoInternet />
+                    <Alert
+                        className="alert-start"
+                        style={{ textAlign: 'left' }}
+                        message="Error"
+                        description="No internet connection"
+                        type="error"
+                        showIcon
+                    />
                 ) : (
                     <Tabs
                         activeKey={activeTab}

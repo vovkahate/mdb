@@ -1,9 +1,32 @@
 import React from 'react';
-import { Alert } from 'antd';
+import { Alert, Pagination } from 'antd';
 import MovieCard from './moviecard';
+import Loader from './loader';
 
-const MovieList = ({ movies, query, rateMovie, myRatedMovies }) => {
-    return !query && movies.length === 0 ? (
+const MovieList = ({
+    loader,
+    movies,
+    query,
+    rateMovie,
+    myRatedMovies,
+    pagination,
+    page,
+    totalPages,
+    movieListPagination,
+    error,
+    sessionError,
+}) => {
+    return error || sessionError ? (
+        <Alert
+            className="alert-start"
+            message="Error"
+            description={error || sessionError}
+            type="error"
+            showIcon
+        />
+    ) : loader ? (
+        <Loader />
+    ) : !query && movies.length === 0 ? (
         <Alert
             className="alert-start"
             message="Для поиска фильма начните печатать название"
@@ -27,6 +50,21 @@ const MovieList = ({ movies, query, rateMovie, myRatedMovies }) => {
                     handleRatingChange={rateMovie}
                 />
             ))}
+            {pagination && (
+                <Pagination
+                    style={{
+                        marginTop: '36px',
+                        marginBottom: '17px',
+                        gridColumn: '1/ span 2',
+                        placeSelf: 'center',
+                    }}
+                    defaultCurrent={page}
+                    total={totalPages}
+                    showSizeChanger={false}
+                    pageSize={20}
+                    onChange={(value) => movieListPagination(value)}
+                />
+            )}
         </div>
     );
 };

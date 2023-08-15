@@ -15,23 +15,6 @@ const RatedFilms = ({ sessionId, myRatedMovies }) => {
         const response = await MovieService.fetchRated(sessionId, page);
         return response;
     };
-    // useEffect(() => {
-    //     const fetchData = async () => {
-    //         try {
-    //             setIsLoading(true);
-    //             const newData = await fetchRatedFilms(sessionId, currentPage);
-    //             setList(newData.results);
-    //             setPages(newData.total_results);
-    //             console.log('сработал фетч в 2 табе и...', newData);
-    //             console.log('массив этих фильмов: ', newData.results);
-    //             setIsLoading(false);
-    //         } catch (error) {
-    //             console.log(error);
-    //         }
-    //     };
-
-    //     fetchData();
-    // }, []);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -41,8 +24,6 @@ const RatedFilms = ({ sessionId, myRatedMovies }) => {
                 const newData = await fetchRatedFilms(sessionId, currentPage);
                 setList(newData.results);
                 setPages(newData.total_results);
-                // console.log('сработал фетч в 2 табе', newData);
-                // console.log('массив фильмов: ', newData.results);
                 setIsLoading(false);
             } catch (error) {
                 console.log('ошибка запроса оцененных фильмов', error);
@@ -78,7 +59,10 @@ const RatedFilms = ({ sessionId, myRatedMovies }) => {
                         current={currentPage}
                         total={pages}
                         onChange={(page) => setCurrentPage(page)}
-                        style={{ marginTop: '36px', marginBottom: '17px' }}
+                        style={{
+                            marginTop: '36px',
+                            marginBottom: '17px',
+                        }}
                     />
                 </>
             ) : (
